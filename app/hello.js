@@ -1,11 +1,11 @@
 import React from 'react'
-
+import './home.less';
 export default class Hello extends React.Component {
     render () {
-        return <div onClick={this.click}>hello worsdwld</div>
+        return <div onClick={this.click} className='hello'>hello worssdsdwldsas</div>
     }
 
     click(){
-        alert(123)
+        alert(1231)
     }
 }

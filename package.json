@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon index.js",
-    "build": "webpack",
+    "start": "cross-env NODE_ENV=development nodemon index.js",
+    "build": "cross-env NODE_ENV=project webpack",
     "lint": "functionhappy | snazzy"
   },
   "author": "",
@@ -13,16 +13,29 @@
   "dependencies": {
     "babel-loader": "^7.1.5",
     "react": "^16.6.3",
-    "react-dom": "^16.6.3"
+    "react-dom": "^16.6.3",
+    "@babel/core": "^7.2.2",
+    "@babel/preset-env": "^7.2.0"
   },
   "devDependencies": {
+    "autoprefixer": "^9.4.3",
     "babel-core": "^6.26.3",
     "babel-polyfill": "^6.26.0",
     "babel-preset-env": "^1.7.0",
     "babel-preset-react": "^6.24.1",
+    "cross-env": "^5.2.0",
+    "css-loader": "1.0.0",
     "express": "^4.16.4",
+    "extract-text-webpack-plugin": "^4.0.0-beta.0",
+    "less": "^3.9.0",
+    "less-loader": "^4.1.0",
+    "mini-css-extract-plugin": "^0.5.0",
     "nodemon": "^1.18.7",
+    "postcss-loader": "^3.0.0",
+    "style-loader": "^0.23.1",
     "webpack": "^4.27.1",
-    "webpack-cli": "^3.1.2"
+    "webpack-cli": "^3.1.2",
+    "webpack-dev-middleware": "^3.4.0",
+    "webpack-hot-middleware": "^2.24.3"
   }
 }
