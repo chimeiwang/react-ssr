@@ -4,7 +4,8 @@ export default ({ body, title }) => {
     <html>
       <head>
         <title>${title}</title>
-        <link rel="stylesheet" href="/dist/index.css" />
+        ${process.env.NODE_ENV == 'project'?<link rel="stylesheet" href="/dist/index.css" />:''}
+        
       </head>
       <body>
         <div id="root">${body}</div>

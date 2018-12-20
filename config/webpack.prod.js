@@ -1,26 +1,10 @@
 var path = require('path');
-var webpack = require('webpack');
-var MiniCssExtractPlugin = require('mini-css-extract-plugin');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
-module.exports = {
-    mode: 'production',
-    entry: {
-        main: './app/index.js'
-    },
-    output: {
-        filename: '[name].js',
-        path: path.join(__dirname, 'dist'),
-        publicPath: '/dist'
-    },
-    resolve: {
-        extensions: ['.js', '.jsx']
-    },
+var base = require('./webpack.base');
+var merge = require('webpack-merge');
+const webpackConfig = merge(base,{
     module: {
         rules: [
-            {
-                test: /\.jsx?$/,
-                loaders: ['babel-loader'],
-            },
             {
                 test:/\.less$/,
                 use: ExtractTextPlugin.extract({
@@ -37,4 +21,5 @@ module.exports = {
         require('autoprefixer'),
         new ExtractTextPlugin('main.css')
     ]
-}
+})
+module.exports = webpackConfig
