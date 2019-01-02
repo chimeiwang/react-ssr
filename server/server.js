@@ -1,7 +1,7 @@
 import express from 'express';
 import React from 'react';
 import { renderToString } from 'react-dom/server';
-import Hello from '../app/hello'
+import ServerRouter from '../app/router/enter-server'
 import template from './template';
 import webpack from 'webpack';
 import webpackConfig from '../config/webpack.dev'
@@ -18,12 +18,15 @@ if(process.env.NODE_ENV == 'development'){
     server.use(webpackHotMiddleware(compiler));
 }
 
-server.get('/', (req, res) => {
-  const appString = renderToString(<Hello/>);
-  res.send(template({
-    body: appString,
-    title: 'Hello World from the server',
-  }));
+server.get('*', (req, res) => {
+    let context = {};
+    let component = ServerRouter.ServerRouter(context, req.url);
+    const appString = renderToString(component);
+
+    res.send(template({
+        body: appString,
+        title: 'Hello World from the server',
+    }));
 });
 
 server.listen(8080);

@@ -1,5 +1,5 @@
-import Hello from './hello.js'
+import Root from './router/enter-client.js'
 import ReactDOM from 'react-dom'
 import React from 'react'
 import '../pub/home.less';
-ReactDOM.hydrate(<Hello />, document.getElementById('root'))
+ReactDOM.hydrate(<Root />, document.getElementById('root'))
