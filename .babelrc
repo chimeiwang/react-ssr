@@ -1,3 +1,4 @@
 {
-  "presets": ["react", "env"]
+  "presets": ["react", "env"],
+  "plugins": ["dynamic-import-node","loadable-components/babel"]
 }

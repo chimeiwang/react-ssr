@@ -10,7 +10,11 @@ import hello from "../pages/hello";
 import hello2 from "../pages/hello2";
 import React from 'react'
 import Nofound from './nofound'
-
+import TopList from '../pages/TopList'
+import createStore from '../redux/store'
+import Loadable from "loadable-components";
+import router from "./index.js";
+// import {Provider} from 'react-redux'
 class Root extends React.Component {
     constructor(props) {
         super(props);
@@ -25,7 +29,15 @@ class Root extends React.Component {
                 </ul>
                 <div className="view">
                     <Switch>
-                        <Route path="/" exact component={hello} />
+                        {/*{router.map((route,i)=> {*/}
+                            {/*return (*/}
+                                {/*<Route path={route.path} exact={route.exact} key={i}*/}
+                                       {/*render={(props) => <route.component {...props} router={route.routes}/>}*/}
+                                {/*/>*/}
+                            {/*)*/}
+                        {/*})}*/}
+                        <Route path="/" exact component={ TopList} />
+                        <Route path="/one" exact component={hello} />
                         <Route path="/two" component={hello2} />
                         <Nofound code={404}>
                             <div>
@@ -41,10 +53,14 @@ class Root extends React.Component {
 
 const ServerRouter = (context, url)=>{
     const CreateRouter = () => {
+        const Provider = require("react-redux").Provider;
+        const store = createStore();
         return (
-            <StaticRouter context={context} location={url}>
-                <Root/>
-            </StaticRouter>
+            <Provider store={store}>
+                <StaticRouter context={context} location={url}>
+                    <Root/>
+                </StaticRouter>
+            </Provider>
         )
     }
     return <CreateRouter/>;
