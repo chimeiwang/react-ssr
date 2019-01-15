@@ -11,8 +11,11 @@ const { matchRoutes } = require("react-router-config");
 import hello from "../app/pages/hello";
 import hello2 from "../app/pages/hello2";
 import TopList from '../app/pages/TopList'
+import Top from '../app/pages/Top'
 import Loadable from "loadable-components";
 import router from "../app/router/index"
+import createStore from '../app/redux/store'
+import {something} from "../app/redux/action";
 
 const { getLoadableState } = require("loadable-components/server");
 const server = express();
@@ -25,53 +28,31 @@ if(process.env.NODE_ENV == 'development'){
     }))
     server.use(webpackHotMiddleware(compiler));
 }
-// const router = [
-//     {
-//         path: "/",
-//         component: Loadable(() => TopList),
-//         exact: true
-//     },
-//     {
-//         path: "/one",
-//         component: Loadable(() => hello)
-//     },
-//     {
-//         path: "/two",
-//         component: Loadable(() => hello2)
-//     },
-// ];
 server.get('*', (req, res) => {
+        let context = {};
+        const store = createStore({});
+        let component = ServerRouter.ServerRouter(context, req.url,store);
+        let promises;
 
-    let context = {};
-    let component = ServerRouter.ServerRouter(context, req.url);
-    let promises;
-    const appString = renderToString(component);
-    res.send(template({
-        body: appString,
-        title: 'Hello World from the server',
-    }));
-    // getLoadableState(component).then(loadableState => {
-    //     let matchs = matchRoutes(router, req.path);
-    //
-    //     promises = matchs.map(({ route, match }) => {
-    //         // const asyncData = route.component.Component.asyncData;
-    //         return Promise.resolve(null);
-    //     });
-    //     Promise.all(promises).then(() => {
-    //
-    //     }).catch(error => {
-    //         console.log(error);
-    //         res.status(500).send("Internal server error");
-    //     });
-    // })
+        getLoadableState(component).then(loadableState => {
 
-    // const appString = renderToString(component);
-    // res.send(template({
-    //     body: appString,
-    //     title: 'Hello World from the server',
-    // }));
+            let matchs = matchRoutes(router, req.path);
+            promises = matchs.map(({ route, match }) => {
+                const asyncData = route.component.Component.asyncData;
+                return asyncData ? asyncData(store, Object.assign(match.params, req.query)) : Promise.resolve(null);
+            });
 
-
+            Promise.all(promises).then(() => {
+                const appString = renderToString(component);
+                res.send(template({
+                    body: appString,
+                    title: 'Hello World from the server',
+                }));
+            }).catch(error => {
+                console.log(error);
+                res.status(500).send("Internal server error");
+            });
+        })
 });
 
 server.listen(8080);

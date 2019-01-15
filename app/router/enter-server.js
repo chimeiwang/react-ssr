@@ -14,12 +14,13 @@ import TopList from '../pages/TopList'
 import createStore from '../redux/store'
 import Loadable from "loadable-components";
 import router from "./index.js";
-// import {Provider} from 'react-redux'
+import {Provider} from 'react-redux'
 class Root extends React.Component {
     constructor(props) {
         super(props);
     }
     render() {
+
         return (
             <div>
                 <div className="title">This is a react ssr demo</div>
@@ -29,16 +30,13 @@ class Root extends React.Component {
                 </ul>
                 <div className="view">
                     <Switch>
-                        {/*{router.map((route,i)=> {*/}
-                            {/*return (*/}
-                                {/*<Route path={route.path} exact={route.exact} key={i}*/}
-                                       {/*render={(props) => <route.component {...props} router={route.routes}/>}*/}
-                                {/*/>*/}
-                            {/*)*/}
-                        {/*})}*/}
-                        <Route path="/" exact component={ TopList} />
-                        <Route path="/one" exact component={hello} />
-                        <Route path="/two" component={hello2} />
+                        {router.map((route,i)=> {
+                            return (
+                                <Route path={route.path} exact={route.exact} key={i}
+                                       render={(props) => <route.component {...props} router={route.routes}/>}
+                                />
+                            )
+                        })}
                         <Nofound code={404}>
                             <div>
                                 <h1>Not Found</h1>
@@ -51,10 +49,8 @@ class Root extends React.Component {
     }
 }
 
-const ServerRouter = (context, url)=>{
-    const CreateRouter = () => {
-        const Provider = require("react-redux").Provider;
-        const store = createStore();
+const ServerRouter = (context, url,store)=>{
+    const App = () => {
         return (
             <Provider store={store}>
                 <StaticRouter context={context} location={url}>
@@ -63,7 +59,7 @@ const ServerRouter = (context, url)=>{
             </Provider>
         )
     }
-    return <CreateRouter/>;
+    return <App/>;
 }
 
 module.exports = {

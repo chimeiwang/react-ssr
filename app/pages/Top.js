@@ -26,9 +26,6 @@ class TopList extends React.Component {
         //     })
         // })
     }
-    componentWillUpdate(props){
-        console.log(props);
-    }
     componentDidMount() {
         // 判断是否需要加载数据
         //   this.props.something();
@@ -50,7 +47,7 @@ class TopList extends React.Component {
                     {
                         list?list.map(item => {
                             return <li className="list-item" key={item.id}>
-                                <NavLink to={`${match.url}/${item.id}`}><ListItem {...item} /></NavLink>
+                                <div to={`${match.url}/${item.id}`}><ListItem {...item} /></div>
                             </li>;
                         }):()=>{}
                     }
@@ -60,12 +57,4 @@ class TopList extends React.Component {
     }
 }
 
-export default connect(
-    (state)=>({
-        list: state.dosomethingreducer.list
-    }),
-    (dispatch)=>({
-        something:bindActionCreators(something, dispatch),
-    })
-)(TopList);
-  
+export default TopList;

@@ -30,17 +30,13 @@ export default class Root extends React.Component {
                         </ul>
                         <div className="view">
                             <Switch>
-                                {/*{router.map((route,i)=> {*/}
-                                    {/*return (*/}
-                                        {/*<Route path={route.path} exact={route.exact} key={i}*/}
-                                               {/*render={(props) => <route.component {...props} router={route.routes}/>}*/}
-                                        {/*/>*/}
-                                    {/*)*/}
-                                {/*})}*/}
-
-                                <Route path="/" exact component={ TopList} />
-                                <Route path="/one" exact component={hello} />
-                                <Route path="/two" component={hello2} />
+                                {router.map((route,i)=> {
+                                    return (
+                                        <Route path={route.path} exact={route.exact} key={i}
+                                               render={(props) => <route.component {...props} router={route.routes}/>}
+                                        />
+                                    )
+                                })}
                                 <Nofound code={404}>
                                     <div>
                                         <h1>Not Found</h1>
